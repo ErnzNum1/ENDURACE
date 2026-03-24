@@ -25,6 +25,7 @@
         "backgroundColor": "#010101"
       },
       "package": "com.endurace.mobile",
+      "versionCode": 1,
       "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
