@@ -57,7 +57,7 @@ const ImagePickerButton = ({ onPicked, children, style }) => {
   const pick = async (source) => {
     setShowMenu(false);
     let result;
-    const opts = { mediaTypes: ImagePicker.MediaTypeOptions.Images, quality: 0.85, allowsEditing: true };
+    const opts = { mediaTypes: ImagePicker.MediaType.Images, quality: 0.85, allowsEditing: true };
     if (source === 'camera') {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
       if (status !== 'granted') return Alert.alert('Permission denied', 'Camera access is required.');

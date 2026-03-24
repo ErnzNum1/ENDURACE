@@ -75,7 +75,7 @@ const ProfileScreen = ({ navigation }) => {
   // ── Pick avatar ───────────────────────────────────────────────
   const pickAvatar = async (source) => {
     setPickerMenu(false);
-    const opts = { mediaTypes: ImagePicker.MediaTypeOptions.Images, quality: 0.85, allowsEditing: true, aspect: [1, 1] };
+    const opts = { mediaTypes: ImagePicker.MediaType.Images, quality: 0.85, allowsEditing: true, aspect: [1, 1] };
     let result;
     if (source === 'camera') {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();

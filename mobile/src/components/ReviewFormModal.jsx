@@ -36,7 +36,7 @@ const ReviewFormModal = ({ visible, onClose, productId, orderId, existingReview 
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') return Alert.alert('Permission denied');
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaType.Images,
       allowsMultipleSelection: true,
       selectionLimit: 3,
       quality: 0.8,

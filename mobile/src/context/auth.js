@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import {
@@ -64,7 +65,9 @@ export const AuthProvider = ({ children }) => {
       if (Platform.OS === 'web' || !Device.isDevice) return;
       const { status } = await Notifications.requestPermissionsAsync();
       if (status !== 'granted') return;
-      const { data: expoPushToken } = await Notifications.getExpoPushTokenAsync();
+      const { data: expoPushToken } = await Notifications.getExpoPushTokenAsync({
+         projectId: Constants.expoConfig?.extra?.eas?.projectId,
+         });
       if (token && expoPushToken) await savePushToken(token, expoPushToken);
     } catch {}
   };
