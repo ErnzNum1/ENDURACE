@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts, Oswald_700Bold } from '@expo-google-fonts/oswald';
 import { Montserrat_400Regular, Montserrat_700Bold } from '@expo-google-fonts/montserrat';
 import * as SplashScreen from 'expo-splash-screen';
 import { Provider, useDispatch } from 'react-redux';
-import { View, ActivityIndicator, StatusBar, Platform } from 'react-native';
+import { View, ActivityIndicator, StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import store from './src/store/store';
 import { AuthProvider, useAuth } from './src/context/auth';
@@ -66,7 +66,6 @@ const RootNavigator = () => {
 
   return (
     <NavigationContainer ref={navRef}>
-      {/* Transparent status bar — lets content go edge-to-edge */}
       <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="FrontPage" component={FrontPageScreen} />
@@ -78,23 +77,27 @@ const RootNavigator = () => {
 };
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Oswald_700Bold,
     Montserrat_400Regular,
     Montserrat_700Bold,
   });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) await SplashScreen.hideAsync();
-  }, [fontsLoaded]);
+  // ✅ Hide splash screen as soon as fonts are loaded or failed
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded) return null;
+  // ✅ Don't render anything until fonts are ready
+  if (!fontsLoaded && !fontError) return null;
 
   return (
     <SafeAreaProvider>
       <Provider store={store}>
         <AuthProvider>
-          <RootNavigator onReady={onLayoutRootView} />
+          <RootNavigator />
         </AuthProvider>
       </Provider>
     </SafeAreaProvider>
